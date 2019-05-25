@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">GasolinaxAlcool</string>
+    <string name="alcool">Alcool</string>
+    <string name="gasolina">Gasolina</string>
+    <string name="calculateButtonText">Calcular</string>
+    <string name="resetButton">Reset</string>
+</resources>

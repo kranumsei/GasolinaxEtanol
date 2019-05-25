@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1245A8</color>
+
+    <color name="alcohoolColor">#fffafa</color>
+    <color name="gasColor">#bbaf00</color>
+
+    <color name="goodGreen">#31981d</color>
+    <color name="badRed">#8B0000</color>
+
+    <color name="grey">#C0C0C0</color>
+
+</resources>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toTopOf="@+id/guidelineTopoAd" />
+
+    <TextView
+        android:id="@+id/alcoolTextView"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/alcool"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/alcoolEditText"
+        app:layout_constraintEnd_toEndOf="@+id/alcoolEditText"
+        app:layout_constraintStart_toStartOf="@+id/alcoolEditText" />
+
+    <TextView
+        android:id="@+id/gasolinaTextView"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/gasolina"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/gasEditText"
+        app:layout_constraintEnd_toEndOf="@+id/gasEditText"
+        app:layout_constraintStart_toStartOf="@+id/gasEditText" />
+
+    <EditText
+        android:id="@+id/alcoolEditText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:hint="@string/alcool"
+        android:textSize="25sp"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineBaseInput"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineCentro"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="@+id/guidelineEsquerdaAlcool"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopoInput" />
+
+    <EditText
+        android:id="@+id/gasEditText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:hint="@string/gasolina"
+        android:textSize="25sp"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineBaseInput"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineDireitaGasolina"
+        app:layout_constraintStart_toStartOf="@+id/guidelineCentro"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopoInput" />
+
+    <TextView
+        android:id="@+id/alcoolPercentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="          "
+        app:layout_constraintEnd_toEndOf="@+id/alcoolEditText"
+        app:layout_constraintStart_toStartOf="@+id/alcoolEditText"
+        app:layout_constraintTop_toBottomOf="@+id/alcoolEditText" />
+
+    <TextView
+        android:id="@+id/gasPercentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="         "
+        app:layout_constraintEnd_toEndOf="@+id/gasEditText"
+        app:layout_constraintStart_toStartOf="@+id/gasEditText"
+        app:layout_constraintTop_toBottomOf="@+id/gasEditText" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineTopoInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineBaseInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.3" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineEsquerdaAlcool"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineCentro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineDireitaGasolina"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineTopoAd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.85" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineTopoAd2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <Button
+        android:id="@+id/calculateButton"
+        android:layout_width="0dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/calculateButtonText"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineTopoAd2"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineDireitaBotao"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guidelineEsquerdaBotao" />
+
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="66dp"
+        android:layout_height="33dp"
+        android:text="@string/resetButton"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/calculateButton"
+        app:layout_constraintStart_toStartOf="@+id/calculateButton"
+        app:layout_constraintTop_toBottomOf="@+id/calculateButton" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineEsquerdaBotao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.32" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineDireitaBotao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.68" />
+</android.support.constraint.ConstraintLayout>
