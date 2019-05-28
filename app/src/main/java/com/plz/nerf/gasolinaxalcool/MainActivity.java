@@ -16,83 +16,78 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
 public class MainActivity extends AppCompatActivity {
+    AdRequest adRequest;
     private AdView mAdView;
     private Button mButton;
     private Button mResetButton;
     private EditText mGas;
     private EditText mAlc;
     private TextView mAlcPercent;
-    private TextView mGasPercent;
-    private int editFlag;
+    private int editFlag; //Flag used to alternate between edit text listeners.
+    private int[] userChoice; //Flag to indicate which of the editors was touched.
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        editFlag = -1;
+        userChoice = new int[2];
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setupAds();
+        //GAS SETUP
 
         mGas = findViewById(R.id.gasEditText);
-       mGas.setOnTouchListener(new View.OnTouchListener() {
+        mGas.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 mGas.setText("");
-                mGas.setBackgroundColor(getResources().getColor(R.color.grey));
-                mAlc.setBackgroundColor(getResources().getColor(R.color.grey));
-                editFlag = 0;
+                resetColors();
+                setEditFlag(mGas);
                 return false;
             }
         });
-
         mGas.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(editFlag == 0){
 
-                    FuelPicker fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
-                    mAlc.setText(fp.getEquivalentAlcoholPrice()+"");
-                    mAlcPercent.setText(fp.getAlcoholGasRelation()+"");
-
-
-                }
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-                if(editFlag == 0){
-/*
-                    FuelPicker fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
-                    mAlc.setText(fp.getEquivalentAlcoholPrice()+"");
-                    mAlcPercent.setText(fp.getAlcoholGasRelation()+"");*/
+                if(isActiveEditText(mGas)){
+                    FuelPicker fp;
+                    if (!hasClicked(mAlc)) {
+                        mAlc.setText("");
+                        fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
+                        mAlc.setText(fp.getEquivalentAlcoholPrice()+"");
 
+                    }
+                    fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
+                    mAlcPercent.setText(fp.getAlcoholGasRelation()+"%");
+                    setColors(fp);
 
                 }
             }
         });
-        mGasPercent = findViewById(R.id.gasPercentage);
+
+        //ETHANOL SETUP
 
         mAlc = findViewById(R.id.alcoolEditText);
         mAlc.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 mAlc.setText("");
-                mGas.setBackgroundColor(getResources().getColor(R.color.grey));
-                mAlc.setBackgroundColor(getResources().getColor(R.color.grey));
-                editFlag = 1;
+                resetColors();
+                setEditFlag(mAlc);
                 return false;
             }
         });
         mAlc.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
@@ -100,22 +95,24 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void afterTextChanged(Editable s) {
-                if(editFlag == 1){
-                    FuelPicker fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
-
-                    mGas.setText(fp.getEquivalentGasPrice()+"");
-                    mAlcPercent.setText(fp.getAlcoholGasRelation()+"");
-                    mAlc.setText(fp.getAlcoholPrice()+"");
+                if(isActiveEditText(mAlc)){
+                    FuelPicker fp;
+                    if (!hasClicked(mGas)) {
+                        mGas.setText("");
+                        fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
+                        mGas.setText(fp.getEquivalentGasPrice()+"");
+                        mAlcPercent.setText(fp.getAlcoholGasRelation()+"%");
+                        setColors(fp);
+                    }
+                    fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
+                    mAlcPercent.setText(fp.getAlcoholGasRelation()+"%");
+                    setColors(fp);
                 }
             }
         });
         mAlcPercent = findViewById(R.id.alcoolPercentage);
 
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
 
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
 
         mButton = findViewById(R.id.calculateButton);
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -123,26 +120,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 FuelPicker fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
-                if(!mAlc.getText().toString().equals("") && !mGas.getText().toString().equals("")){
-
-                }else if(!mAlc.getText().toString().equals("")){
-                    mGas.setText(fp.getEquivalentGasPrice()+"");
-                    fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
-                }else if(!mGas.getText().toString().equals("")){
-                    mAlc.setText(fp.getEquivalentAlcoholPrice()+"");
-                    fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
-                }
-
-
                 mAlcPercent.setText(fp.getAlcoholGasRelation()+"%");
-                if(fp.shouldUseGas()){
-                    mGas.setBackgroundColor(getResources().getColor(R.color.goodGreen));
-                    mAlc.setBackgroundColor(getResources().getColor(R.color.badRed));
-                }else{
-                    mGas.setBackgroundColor(getResources().getColor(R.color.badRed));
-                    mAlc.setBackgroundColor(getResources().getColor(R.color.goodGreen));
-                }
-
+                setColors(fp);
             }
 
 
@@ -152,14 +131,72 @@ public class MainActivity extends AppCompatActivity {
         mResetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAlc.setText("");
-                mGas.setText("");
-                mAlcPercent.setText("");
-                mGas.setBackgroundColor(getResources().getColor(R.color.grey));
-                mAlc.setBackgroundColor(getResources().getColor(R.color.grey));
+                reset();
             }
         });
-
     }
 
+    private void setColors(FuelPicker fp){
+        if(fp.shouldUseGas()){
+            mGas.setBackgroundColor(getResources().getColor(R.color.goodGreen));
+            mAlc.setBackgroundColor(getResources().getColor(R.color.badRed));
+        }else{
+            mGas.setBackgroundColor(getResources().getColor(R.color.badRed));
+            mAlc.setBackgroundColor(getResources().getColor(R.color.goodGreen));
+        }
+    }
+
+    private void setupAds(){
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
+
+        mAdView = findViewById(R.id.adView);
+        adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+    }
+
+    private boolean isActiveEditText(EditText editText){
+        if(editText == findViewById(R.id.alcoolEditText) && editFlag == 1){
+            return true;
+        }else if (editText == findViewById(R.id.gasEditText) && editFlag == 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    private boolean hasClicked(EditText editText){
+        if(editText == findViewById(R.id.gasEditText) && userChoice[0] > 0){
+            return true;
+        } else if(editText == findViewById(R.id.alcoolEditText) && userChoice[1] > 0){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+    private void reset(){
+        mAlc.setText("");
+        mGas.setText("");
+        mAlcPercent.setText("");
+        mGas.setBackgroundColor(getResources().getColor(R.color.grey));
+        mAlc.setBackgroundColor(getResources().getColor(R.color.grey));
+        editFlag = -1;
+        userChoice[0] = 0;
+        userChoice[1] = 0;
+    }
+
+    private void setEditFlag(EditText activeEditText){
+        if(activeEditText == findViewById(R.id.alcoolEditText)){
+            editFlag = 1;
+            userChoice[1] = 1;
+        }else if(activeEditText == findViewById(R.id.gasEditText)){
+            editFlag = 0;
+            userChoice[0] = 1;
+        }
+    }
+
+    private void resetColors(){
+        mGas.setBackgroundColor(getResources().getColor(R.color.grey));
+        mAlc.setBackgroundColor(getResources().getColor(R.color.grey));
+    }
 }
