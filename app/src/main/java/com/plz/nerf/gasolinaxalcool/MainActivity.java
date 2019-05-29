@@ -3,6 +3,7 @@ package com.plz.nerf.gasolinaxalcool;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -18,7 +20,6 @@ import com.google.android.gms.ads.MobileAds;
 public class MainActivity extends AppCompatActivity {
     AdRequest adRequest;
     private AdView mAdView;
-    private Button mButton;
     private Button mResetButton;
     private EditText mGas;
     private EditText mAlc;
@@ -33,8 +34,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setupAds();
-        //GAS SETUP
+        mAlcPercent = findViewById(R.id.alcoolPercentage);
 
+        //GAS SETUP
         mGas = findViewById(R.id.gasEditText);
         mGas.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -52,28 +54,26 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
             @Override
             public void afterTextChanged(Editable s) {
+                if(s.toString().length() > 1){
+                    s.insert(1, ".");
+                }
                 if(isActiveEditText(mGas)){
                     FuelPicker fp;
                     if (!hasClicked(mAlc)) {
-                        mAlc.setText("");
-                        fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
+                        fp = new FuelPicker("", mGas.getText().toString());
                         mAlc.setText(fp.getEquivalentAlcoholPrice()+"");
-
                     }
                     fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
                     mAlcPercent.setText(fp.getAlcoholGasRelation()+"%");
                     setColors(fp);
-
                 }
             }
         });
 
         //ETHANOL SETUP
-
         mAlc = findViewById(R.id.alcoolEditText);
         mAlc.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -95,36 +95,20 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void afterTextChanged(Editable s) {
+                if(s.toString().length() > 1){
+                    s.insert(1, ".");
+                }
                 if(isActiveEditText(mAlc)){
                     FuelPicker fp;
                     if (!hasClicked(mGas)) {
-                        mGas.setText("");
-                        fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
+                        fp = new FuelPicker(mAlc.getText().toString(), "");
                         mGas.setText(fp.getEquivalentGasPrice()+"");
-                        mAlcPercent.setText(fp.getAlcoholGasRelation()+"%");
-                        setColors(fp);
                     }
                     fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
                     mAlcPercent.setText(fp.getAlcoholGasRelation()+"%");
                     setColors(fp);
                 }
             }
-        });
-        mAlcPercent = findViewById(R.id.alcoolPercentage);
-
-
-
-        mButton = findViewById(R.id.calculateButton);
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                FuelPicker fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
-                mAlcPercent.setText(fp.getAlcoholGasRelation()+"%");
-                setColors(fp);
-            }
-
-
         });
 
         mResetButton = findViewById(R.id.resetButton);
@@ -175,14 +159,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void reset(){
+        editFlag = -1;
+        userChoice[0] = 0;
+        userChoice[1] = 0;
         mAlc.setText("");
         mGas.setText("");
         mAlcPercent.setText("");
         mGas.setBackgroundColor(getResources().getColor(R.color.grey));
         mAlc.setBackgroundColor(getResources().getColor(R.color.grey));
-        editFlag = -1;
-        userChoice[0] = 0;
-        userChoice[1] = 0;
+        mGas.clearFocus();
+        mAlc.clearFocus();
     }
 
     private void setEditFlag(EditText activeEditText){

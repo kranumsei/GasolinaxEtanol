@@ -52,6 +52,7 @@
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="@string/alcool"
+        android:maxLength="6"
         android:textSize="25sp"
         android:inputType="numberDecimal"
         android:textAlignment="center"
@@ -71,6 +72,7 @@
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="@string/gasolina"
+        android:maxLength="6"
         android:textSize="25sp"
         android:inputType="numberDecimal"
         android:textAlignment="center"
@@ -149,27 +151,19 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <Button
-        android:id="@+id/calculateButton"
+        android:id="@+id/resetButton"
         android:layout_width="0dp"
-        android:layout_height="39dp"
+        android:layout_height="40dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/calculateButtonText"
+        android:text="@string/resetButton"
         app:layout_constraintBottom_toTopOf="@+id/guidelineTopoAd2"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDireitaBotao"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/guidelineEsquerdaBotao" />
-
-    <Button
-        android:id="@+id/resetButton"
-        android:layout_width="66dp"
-        android:layout_height="33dp"
-        android:text="@string/resetButton"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/calculateButton"
-        app:layout_constraintStart_toStartOf="@+id/calculateButton"
-        app:layout_constraintTop_toBottomOf="@+id/calculateButton" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineEsquerdaBotao"
+        app:layout_constraintTop_toTopOf="@+id/guidelineBaseInput" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelineEsquerdaBotao"

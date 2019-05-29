@@ -77,7 +77,23 @@ public class FuelPicker {
 	}
 
 	public double getAlcoholGasRelation() {
-		return alcoholGasRelation;
+		String formated = alcoholGasRelation+"";
+        System.out.println(formated);
+		try{
+			String units = formated.split("\\.")[0];
+            System.out.println(units);
+			String numberOfDecimals = formated.split("\\.")[1];
+            System.out.println(numberOfDecimals);
+			if(numberOfDecimals.length() >2){
+				numberOfDecimals = numberOfDecimals.substring(0, 2);
+                System.out.println(numberOfDecimals +" available");
+			}
+			formated = units+"."+numberOfDecimals;
+			return Double.parseDouble(formated);
+		}catch (ArrayIndexOutOfBoundsException e){
+		    e.printStackTrace();
+			return alcoholGasRelation;
+		}
 	}
 
 	private void setAlcoholGasRelation() {
@@ -85,7 +101,7 @@ public class FuelPicker {
 	}
 
 	public double getEquivalentAlcoholPrice() {
-		return equivalentAlcoholPrice;
+			return equivalentAlcoholPrice;
 	}
 
 	public void setEquivalentAlcoholPrice(double equivalentAlcoholPrice) {
