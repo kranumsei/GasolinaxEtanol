@@ -4,4 +4,8 @@
     <string name="gasolina">Gasolina</string>
     <string name="calculateButtonText">Calcular</string>
     <string name="resetButton">Reset</string>
+
+
+    <string name="conclusionString">Você economiza</string>
+    <string name="conclusionString2"> abastecendo com</string>
 </resources>

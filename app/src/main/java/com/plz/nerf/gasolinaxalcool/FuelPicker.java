@@ -27,6 +27,7 @@ public class FuelPicker {
 		if (this.alcoholPrice > 0 && this.gasPrice > 0) {
 			this.setAlcoholGasRelation();
 			this.setIsGasCheaper(this.alcoholPrice, this.gasPrice);
+
 		
 		//only alcohol price is informed
 		} else if (this.alcoholPrice > 0 && this.gasPrice == 0) {
@@ -106,6 +107,17 @@ public class FuelPicker {
 
 	public void setEquivalentAlcoholPrice(double equivalentAlcoholPrice) {
 		this.equivalentAlcoholPrice = equivalentAlcoholPrice;
+	}
+
+	public double getSavings(){
+		double absoluteSavings;
+		if(shouldUseGas()){
+			absoluteSavings = alcoholPrice - (gasPrice*0.7);
+			return (absoluteSavings*100)/alcoholPrice;
+		}else{
+			absoluteSavings = gasPrice - (alcoholPrice/0.7);
+			return (absoluteSavings*100)/gasPrice;
+		}
 	}
 
 	public double getEquivalentGasPrice() {
