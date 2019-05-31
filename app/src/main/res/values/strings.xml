@@ -5,7 +5,18 @@
     <string name="calculateButtonText">Calcular</string>
     <string name="resetButton">Reset</string>
 
+    <string name="obs1">¹ Considerando um investimento isento de IR (LCI ou LCA, por exemplo) a uma taxa de 100% do CDI²</string>
+    <string name="obs2">² O exemplo leva em conta um CDI de 6.4% a.a.</string>
 
     <string name="conclusionString">Você economiza</string>
     <string name="conclusionString2"> abastecendo com</string>
+
+
+    <string name="rendimento">Ao abastecer 40 litros de</string> <!-- x combustivel -->
+    <string name="rendimento2">, você estaria economizando R$</string> <!-- x reais -->
+    <string name="rendimento3">. Para ganhar este mesmo valor em uma aplicação no mercado financeiro, por exemplo, seria necessário investir</string> <!-- y reais -->
+    <string name="rendimento4">reais e esperar 12 meses.¹</string><!-- x meses -->
+
+
+
 </resources>

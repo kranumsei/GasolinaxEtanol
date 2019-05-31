@@ -109,6 +109,16 @@ public class FuelPicker {
 		this.equivalentAlcoholPrice = equivalentAlcoholPrice;
 	}
 
+	public double absoluteSavingsPer40Liters(){
+		double absoluteSavings;
+		if(shouldUseGas()){
+			absoluteSavings = (gasPrice*getSavings())/100;
+		}else{
+			absoluteSavings = (alcoholPrice*getSavings())/100;
+		}
+		return absoluteSavings*40;
+	}
+
 	public double getSavings(){
 		double absoluteSavings;
 		if(shouldUseGas()){
