@@ -6,7 +6,8 @@ public class FuelPicker {
 	private double gasPrice;
 	private double equivalentAlcoholPrice;
 	private double equivalentGasPrice;
-	private double alcoholGasRelation;
+	private double alcoholRelation;
+	private double gasRelation;
 	private boolean shouldUseGas;
 	
 	public FuelPicker(String alcoholPrice, String gasPrice) {
@@ -25,7 +26,8 @@ public class FuelPicker {
 		
 		//both prices are informed
 		if (this.alcoholPrice > 0 && this.gasPrice > 0) {
-			this.setAlcoholGasRelation();
+			this.setAlcoholRelation();
+			this.setGasRelation();
 			this.setIsGasCheaper(this.alcoholPrice, this.gasPrice);
 
 		
@@ -64,7 +66,7 @@ public class FuelPicker {
 	}
 	
 	private void setIsGasCheaper(double alcoholPrice, double gasPrice) {
-		if (this.alcoholGasRelation >= 70) {
+		if (this.alcoholRelation >= 70) {
 			this.shouldUseGas = true;
 			this.equivalentAlcoholPrice = gasPrice * 0.7;
 			this.equivalentGasPrice = gasPrice;
@@ -77,8 +79,8 @@ public class FuelPicker {
 		}		
 	}
 
-	public double getAlcoholGasRelation() {
-		String formated = alcoholGasRelation+"";
+	public double getAlcoholRelation() {
+		String formated = alcoholRelation +"";
         System.out.println(formated);
 		try{
 			String units = formated.split("\\.")[0];
@@ -93,12 +95,36 @@ public class FuelPicker {
 			return Double.parseDouble(formated);
 		}catch (ArrayIndexOutOfBoundsException e){
 		    e.printStackTrace();
-			return alcoholGasRelation;
+			return alcoholRelation;
 		}
 	}
 
-	private void setAlcoholGasRelation() {
-		this.alcoholGasRelation = alcoholPrice * 100 / gasPrice;
+	private void setAlcoholRelation() {
+		this.alcoholRelation = alcoholPrice * 100 / gasPrice;
+	}
+
+	public double getGasRelation(){
+		String formated = gasRelation +"";
+		System.out.println(formated);
+		try{
+			String units = formated.split("\\.")[0];
+			System.out.println(units);
+			String numberOfDecimals = formated.split("\\.")[1];
+			System.out.println(numberOfDecimals);
+			if(numberOfDecimals.length() >2){
+				numberOfDecimals = numberOfDecimals.substring(0, 2);
+				System.out.println(numberOfDecimals +" available");
+			}
+			formated = units+"."+numberOfDecimals;
+			return Double.parseDouble(formated);
+		}catch (ArrayIndexOutOfBoundsException e){
+			e.printStackTrace();
+			return gasRelation;
+		}
+	}
+
+	private void setGasRelation() {
+		this.gasRelation = gasPrice * 100 / alcoholPrice;
 	}
 
 	public double getEquivalentAlcoholPrice() {

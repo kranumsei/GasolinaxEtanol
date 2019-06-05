@@ -6,8 +6,10 @@
     <color name="gasColor">#bbaf00</color>
 
     <color name="goodGreen">#31981d</color>
+    <color name="equivalentYellow">#CCCC00</color>
     <color name="badRed">#8B0000</color>
 
     <color name="grey">#C0C0C0</color>
+    <color name="black">#000000</color>
 
 </resources>

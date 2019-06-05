@@ -1,7 +1,5 @@
 package com.plz.nerf.gasolinaxalcool;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -26,15 +24,20 @@ public class MainActivity extends AppCompatActivity {
     private EditText mGas;
     private EditText mAlc;
     private TextView mAlcPercent;
+    private TextView mGasPercent;
     private ImageView mConclusionImage1;
     private ImageView mCuriosityImage;
     private TextView mConclusionText;
     private TextView mCuriosityText;
     private TextView mObsText1;
     private TextView mObsText2;
-    Drawable mEditTextGreen;
-    Drawable mEditTextRed;
-    Drawable mEditText;
+    private Drawable mEditTextGreen;
+    private Drawable mEditTextYellow;
+    private Drawable mEditTextRed;
+    private Drawable mEditText;
+    private double kmAlcool;
+    private double kmGas;
+    private String idealPercentage;
     private int editFlag; //Flag used to alternate between edit text listeners.
     private int[] userChoice; //Flag to indicate which of the editors was touched.
 
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setupAds();
         mEditTextGreen = ContextCompat.getDrawable(MainActivity.this, R.drawable.edit_text_pattern_green);
+        mEditTextYellow = ContextCompat.getDrawable(MainActivity.this, R.drawable.edit_text_pattern_yellow);
         mEditTextRed = ContextCompat.getDrawable(MainActivity.this, R.drawable.edit_text_pattern_red);
         mEditText = ContextCompat.getDrawable(MainActivity.this, R.drawable.edit_text_pattern);
         mConclusionText = findViewById(R.id.conclusionText);
@@ -55,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
         mObsText1 = findViewById(R.id.observation1);
         mObsText2 = findViewById(R.id.observation2);
         mAlcPercent = findViewById(R.id.alcoolPercentage);
+        mGasPercent = findViewById(R.id.gasPercentage);
+        setKmAlcool(7);
+        setKmGas(10);
+        setIdealPercentage();
+
 
         //GAS SETUP
         mGas = findViewById(R.id.gasEditText);
@@ -89,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                     }else {
                         setConclusionVisibility();
                         fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
-                        mAlcPercent.setText(fp.getAlcoholGasRelation()+"%");
+                        mAlcPercent.setText(fp.getAlcoholRelation()+"%");
                         setConclusionsText(fp);
                         setColors(fp);
                     }
@@ -122,8 +131,6 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
             }
             @Override
             public void afterTextChanged(Editable s) {
@@ -131,17 +138,16 @@ public class MainActivity extends AppCompatActivity {
                     s.insert(1, ".");
                 }
                 if(isActiveEditText(mAlc)){
-                    FuelPicker fp;
-                    if (!hasClicked(mGas) && !mAlc.getText().toString().isEmpty()) {
-                        fp = new FuelPicker(mAlc.getText().toString(), "");
-                        mGas.setText(fp.getEquivalentGasPrice()+"");
-                    }else {
-                        setConclusionVisibility();
-                        fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
-                        mAlcPercent.setText(fp.getAlcoholGasRelation()+"%");
-                        setConclusionsText(fp);
-                        setColors(fp);
+                    FuelPicker fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
+                    if (fp.getGasPrice() == 0.0 && fp.getAlcoholPrice() != 0.0){//!hasClicked(mGas) && !mAlc.getText().toString().isEmpty()) {
+                        mGasPercent.setText(getResources().getString(R.string.valor_equivalente)+String.format(" %.3f", fp.getEquivalentGasPrice()));
+                    }else if(fp.getGasPrice() != 0.0 && fp.getAlcoholPrice() != 0.0){
+                        mGasPercent.setText(fp.getGasRelation()+"%");
+                        mAlcPercent.setText(fp.getAlcoholRelation()+"%\n"+getResources().getString(R.string.valor_ideal)+idealPercentage);
                     }
+                    setConclusionVisibility();
+                    setConclusionsText(fp);
+                    setColors(fp);
                     if(mAlc.getText().toString().isEmpty()) {
                         userChoice[1] = 0;
                         resetColors();
@@ -163,14 +169,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setColors(FuelPicker fp){
-
-        if(fp.shouldUseGas()){
-            mGas.setBackground(mEditTextGreen);
-            mAlc.setBackground(mEditTextRed);
-        }else{
-            mGas.setBackground(mEditTextRed);
-            mAlc.setBackground(mEditTextGreen);
+        if(mGas.getText().toString().isEmpty()){
+            mGasPercent.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.equivalentYellow));
+            mAlc.setBackground(mEditTextYellow);
+        }else if(mAlc.getText().toString().isEmpty()){
+            mAlcPercent.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.equivalentYellow));
+            mGas.setBackground(mEditTextYellow);
+        }else {
+            if(fp.shouldUseGas()){
+                mGas.setBackground(mEditTextGreen);
+                mAlc.setBackground(mEditTextRed);
+            }else{
+                mGas.setBackground(mEditTextRed);
+                mAlc.setBackground(mEditTextGreen);
+            }
+            mAlcPercent.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
+            mGasPercent.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
         }
+
     }
 
     private void setupAds(){
@@ -229,6 +245,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setConclusionsText(FuelPicker fp){
+        if(fp.getAlcoholPrice() == 0.0 || fp.getGasPrice() == 0.0){
+            mConclusionText.setText(getResources().getString(R.string.informe_o_outro_valor));
+            mConclusionText.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.badRed));
+            return;
+        }
         double savings =fp.getSavings();
         double absolutePer40 = fp.absoluteSavingsPer40Liters();
         String fuelType;
@@ -237,7 +258,9 @@ public class MainActivity extends AppCompatActivity {
         }else{
             fuelType = " etanol";
         }
+        mConclusionText.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.goodGreen));
         mConclusionText.setText((getResources().getString(R.string.conclusionString)+String.format(" %.2f%% ", savings)+getResources().getString(R.string.conclusionString2)+fuelType));
+        mCuriosityText.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.goodGreen));
         mCuriosityText.setText((getResources().getString(R.string.rendimento)
                 +fuelType
                 +getResources().getString(R.string.rendimento2)
@@ -250,15 +273,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private  void setConclusionVisibility(){
-        if((mGas.getText().toString()=="0.0" || mGas.getText().toString().isEmpty()) || (mAlc.getText().toString()=="0.0" || mAlc.getText().toString().isEmpty())){
-            setConclusionsVisible(View.INVISIBLE);
-        }else{
+        boolean isAlcoolEmpty = mAlc.getText().toString().isEmpty();
+        boolean isGasEmpty = mGas.getText().toString().isEmpty();
+        if(isAlcoolEmpty && isGasEmpty){
+            mConclusionText.setVisibility(View.INVISIBLE);
+        } else if((isAlcoolEmpty && !isGasEmpty) || (isGasEmpty && !isAlcoolEmpty)){
+            mConclusionText.setVisibility(View.VISIBLE);
+        } else{
             setConclusionsVisible(View.VISIBLE);
         }
     }
 
     private void setConclusionsVisible(int visibility){
-
         mConclusionText.setVisibility(visibility);
         mCuriosityText.setVisibility(visibility);
         mConclusionImage1.setVisibility(visibility);
@@ -271,4 +297,18 @@ public class MainActivity extends AppCompatActivity {
         mGas.setBackground(mEditText);
         mAlc.setBackground(mEditText);
     }
+
+    private void setIdealPercentage(){
+        double percent = (this.kmAlcool*100)/this.kmGas;
+        this.idealPercentage = percent+"%";
+    }
+
+    private void setKmAlcool(double kmAlcool){
+        this.kmAlcool = kmAlcool;
+    }
+
+    private void setKmGas(double kmGas){
+        this.kmGas = kmGas;
+    }
 }
+

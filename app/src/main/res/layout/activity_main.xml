@@ -52,7 +52,7 @@
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="@string/alcool"
-        android:maxLength="6"
+        android:maxLength="5"
         android:textSize="25sp"
         android:inputType="numberDecimal"
         android:textAlignment="center"
@@ -75,7 +75,7 @@
         android:background="@drawable/edit_text_pattern"
         android:ems="10"
         android:hint="@string/gasolina"
-        android:maxLength="6"
+        android:maxLength="5"
         android:textSize="25sp"
         android:inputType="numberDecimal"
         android:textAlignment="center"
@@ -88,20 +88,36 @@
 
     <TextView
         android:id="@+id/alcoolPercentage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:text="          "
+        android:layout_marginBottom="8dp"
+        android:text=""
+        android:gravity="center"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="4sp"
+        android:autoSizeMaxTextSize="12sp"
+        android:autoSizeStepGranularity="1sp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/resetButton"
         app:layout_constraintEnd_toEndOf="@+id/alcoolEditText"
         app:layout_constraintStart_toStartOf="@+id/alcoolEditText"
         app:layout_constraintTop_toBottomOf="@+id/alcoolEditText" />
 
     <TextView
         android:id="@+id/gasPercentage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:text="         "
+        android:layout_marginBottom="8dp"
+        android:text=""
+        android:gravity="center"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="4sp"
+        android:autoSizeMaxTextSize="12sp"
+        android:autoSizeStepGranularity="1sp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/resetButton"
         app:layout_constraintEnd_toEndOf="@+id/gasEditText"
         app:layout_constraintStart_toStartOf="@+id/gasEditText"
         app:layout_constraintTop_toBottomOf="@+id/gasEditText" />
@@ -112,6 +128,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.15" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineTopoInput2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelineBaseInput"
@@ -172,7 +195,6 @@
         android:layout_marginBottom="4dp"
         android:background="@drawable/reset_button_pattern"
         android:text="@string/resetButton"
-
         app:layout_constraintBottom_toTopOf="@+id/guidelineTopoAd2"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDireitaBotao"
         app:layout_constraintHorizontal_bias="1.0"
@@ -200,7 +222,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
+        android:text=""
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="4sp"
+        android:autoSizeMaxTextSize="16sp"
+        android:autoSizeStepGranularity="1sp"
+        android:gravity="center"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDireitaGasolina"
         app:layout_constraintStart_toEndOf="@+id/conclusionImage1"
         app:layout_constraintTop_toTopOf="@+id/guidelineTopoAd2" />
@@ -211,7 +238,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
+        android:text=""
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="4sp"
+        android:autoSizeMaxTextSize="16sp"
+        android:autoSizeStepGranularity="1sp"
+        android:gravity="center"
         android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDireitaGasolina"
         app:layout_constraintStart_toEndOf="@+id/curiosityImage"
@@ -243,8 +275,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/obs1"
-        android:textSize="8sp"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="4sp"
+        android:autoSizeMaxTextSize="8sp"
+        android:autoSizeStepGranularity="2sp"
         android:visibility="invisible"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="@+id/curiosityText"
         app:layout_constraintStart_toStartOf="@+id/curiosityImage"
         app:layout_constraintTop_toBottomOf="@+id/curiosityText" />
@@ -254,10 +290,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textSize="8sp"
+        android:layout_marginBottom="8dp"
         android:text="@string/obs2"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="4sp"
+        android:autoSizeMaxTextSize="8sp"
+        android:autoSizeStepGranularity="2sp"
+        android:gravity="center"
         android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineTopoAd"
         app:layout_constraintEnd_toEndOf="@+id/observation1"
         app:layout_constraintStart_toStartOf="@+id/observation1"
-        app:layout_constraintTop_toBottomOf="@+id/observation1" />
+        app:layout_constraintTop_toBottomOf="@+id/observation1"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/about_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+
+        android:background="@drawable/ic_primary_gnome_question"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineTopoInput2"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineEsquerdaAlcool"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

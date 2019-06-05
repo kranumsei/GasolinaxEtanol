@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GasolinaxAlcool</string>
+    <string name="app_name">Etanol ou Gasolina?</string>
     <string name="alcool">Etanol</string>
     <string name="gasolina">Gasolina</string>
     <string name="calculateButtonText">Calcular</string>
@@ -10,7 +10,10 @@
 
     <string name="conclusionString">Você economiza</string>
     <string name="conclusionString2"> abastecendo com</string>
-
+    <string name="informe_o_outro_valor">Informe o valor do outro combustível</string>
+    
+    <string name="valor_ideal">Valor ideal: </string>
+    <string name="valor_equivalente">Valor equivalente: </string>
 
     <string name="rendimento">Ao abastecer 40 litros de</string> <!-- x combustivel -->
     <string name="rendimento2">, você estaria economizando R$</string> <!-- x reais -->
