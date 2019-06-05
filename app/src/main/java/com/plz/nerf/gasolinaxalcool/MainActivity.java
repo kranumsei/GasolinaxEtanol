@@ -89,27 +89,28 @@ public class MainActivity extends AppCompatActivity {
                 if(s.toString().length() > 1){
                     s.insert(1, ".");
                 }
-
                 if(isActiveEditText(mGas)){
-                    FuelPicker fp;
-                    if (!hasClicked(mAlc) && !mGas.getText().toString().isEmpty()) {
-                        fp = new FuelPicker("", mGas.getText().toString());
-                        mAlc.setText(fp.getEquivalentAlcoholPrice()+"");
-                    }else {
-                        setConclusionVisibility();
-                        fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
-                        mAlcPercent.setText(fp.getAlcoholRelation()+"%");
-                        setConclusionsText(fp);
-                        setColors(fp);
+                    FuelPicker fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
+                    if (fp.getGasPrice() == 0.0 && fp.getAlcoholPrice() != 0.0){//!hasClicked(mGas) && !mAlc.getText().toString().isEmpty()) {
+                        mGasPercent.setText(getResources().getString(R.string.valor_equivalente)+String.format(" %.3f", fp.getEquivalentGasPrice()));
+                        mAlcPercent.setText("");
+                    }else if(fp.getGasPrice() != 0.0 && fp.getAlcoholPrice() == 0.0){
+                        mAlcPercent.setText(getResources().getString(R.string.valor_equivalente)+String.format(" %.3f", fp.getEquivalentAlcoholPrice()));
+                        mGasPercent.setText("");
+                    }else if(fp.getGasPrice() != 0.0 && fp.getAlcoholPrice() != 0.0){
+                        mGasPercent.setText("");
+                        mAlcPercent.setText(fp.getAlcoholRelation()+"%\n"+getResources().getString(R.string.valor_ideal)+idealPercentage);
                     }
+                    setConclusionVisibility();
+                    setConclusionsText(fp);
+                    setColors(fp);
                     if(mGas.getText().toString().isEmpty()) {
                         userChoice[0] = 0;
                         resetColors();
-                        mAlcPercent.setText("");
+                        mGasPercent.setText("");
                     }else {
                         userChoice[0]= 1;
                     }
-
                 }
             }
         });
@@ -141,8 +142,10 @@ public class MainActivity extends AppCompatActivity {
                     FuelPicker fp = new FuelPicker(mAlc.getText().toString(), mGas.getText().toString());
                     if (fp.getGasPrice() == 0.0 && fp.getAlcoholPrice() != 0.0){//!hasClicked(mGas) && !mAlc.getText().toString().isEmpty()) {
                         mGasPercent.setText(getResources().getString(R.string.valor_equivalente)+String.format(" %.3f", fp.getEquivalentGasPrice()));
+                    }else if(fp.getGasPrice() != 0.0 && fp.getAlcoholPrice() == 0.0){
+                        mAlcPercent.setText(getResources().getString(R.string.valor_equivalente)+String.format(" %.3f", fp.getEquivalentAlcoholPrice()));
                     }else if(fp.getGasPrice() != 0.0 && fp.getAlcoholPrice() != 0.0){
-                        mGasPercent.setText(fp.getGasRelation()+"%");
+                        mGasPercent.setText("");
                         mAlcPercent.setText(fp.getAlcoholRelation()+"%\n"+getResources().getString(R.string.valor_ideal)+idealPercentage);
                     }
                     setConclusionVisibility();
@@ -221,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
         mAlc.setText("");
         mGas.setText("");
         mAlcPercent.setText("");
+        mGasPercent.setText("");
     }
 
     private void reset(){
