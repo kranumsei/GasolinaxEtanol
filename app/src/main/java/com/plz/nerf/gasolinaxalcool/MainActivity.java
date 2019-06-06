@@ -1,6 +1,8 @@
 package com.plz.nerf.gasolinaxalcool;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,6 +14,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -46,12 +50,11 @@ public class MainActivity extends AppCompatActivity {
     private double kmGas;
     private String idealPercentage;
     private int editFlag; //Flag used to alternate between edit text listeners.
-    private int[] userChoice; //Flag to indicate which of the editors was touched.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         editFlag = -1;
-        userChoice = new int[2];
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setupAds();
@@ -122,12 +125,6 @@ public class MainActivity extends AppCompatActivity {
                     setConclusionVisibility();
                     setConclusionsText(fp);
                     setColors(fp);
-                    if(fp.getGasPrice() == 0.0) {
-                        userChoice[0] = 0;
-                        resetColors();
-                    }else {
-                        userChoice[0]= 1;
-                    }
                 }
             }
         });
@@ -177,12 +174,6 @@ public class MainActivity extends AppCompatActivity {
                     setConclusionVisibility();
                     setConclusionsText(fp);
                     setColors(fp);
-                    if(fp.getAlcoholPrice() == 0.0) {
-                        userChoice[1] = 0;
-                        resetColors();
-                    }else {
-                        userChoice[1]= 1;
-                    }
                 }
             }
         });
@@ -197,13 +188,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setColors(FuelPicker fp){
-        if(mGas.getText().toString().isEmpty()){
+        if (fp.getAlcoholPrice() > 0.0 && fp.getGasPrice() == 0.0) {
             mGasPercent.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.equivalentYellow));
             mAlc.setBackground(mEditTextYellow);
-        }else if(mAlc.getText().toString().isEmpty()){
+        }else if (fp.getAlcoholPrice() == 0.0 && fp.getGasPrice() > 0.0) {//!hasClicked(mGas) && !mAlc.getText().toString().isEmpty()) {
             mAlcPercent.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.equivalentYellow));
             mGas.setBackground(mEditTextYellow);
-        }else {
+        } else if(fp.getGasPrice() > 0.0 && fp.getAlcoholPrice() > 0.0){
             if(fp.shouldUseGas()){
                 mGas.setBackground(mEditTextGreen);
                 mAlc.setBackground(mEditTextRed);
@@ -213,12 +204,14 @@ public class MainActivity extends AppCompatActivity {
             }
             mAlcPercent.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
             mGasPercent.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
+        }else {
+            resetColors();
         }
 
     }
 
     private void setupAds(){
-        MobileAds.initialize(this, "ca-app-pub-7107657737723421~3249481380");  // ca-app-pub-3940256099942544~3347511713
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");  // ca-app-pub-7107657737723421~3249481380
 
         mAdView = findViewById(R.id.adView);
         adRequest = new AdRequest.Builder().build();
@@ -235,16 +228,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private boolean hasClicked(EditText editText){
-        if(editText == findViewById(R.id.gasEditText) && userChoice[0] > 0){
-            return true;
-        } else if(editText == findViewById(R.id.alcoolEditText) && userChoice[1] > 0){
-            return true;
-        } else{
-            return false;
-        }
-    }
-
     private void resetAllText(){
         mAlc.setText("");
         mGas.setText("");
@@ -254,8 +237,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void reset(){
         editFlag = -1;
-        userChoice[0] = 0;
-        userChoice[1] = 0;
         resetAllText();
         resetColors();
         mGas.clearFocus();
@@ -266,10 +247,8 @@ public class MainActivity extends AppCompatActivity {
     private void setEditFlag(EditText activeEditText){
         if(activeEditText == findViewById(R.id.alcoolEditText)){
             editFlag = 1;
-            userChoice[1] = 1;
         }else if(activeEditText == findViewById(R.id.gasEditText)){
             editFlag = 0;
-            userChoice[0] = 1;
         }
     }
 
@@ -338,13 +317,10 @@ public class MainActivity extends AppCompatActivity {
         this.idealPercentage = percent+"%";
     }
 
-    private void setAbout(){
-
-    }
-
     public void ShowPopup(View v) {
         TextView txtclose;
         TextView about;
+        hideKeyboard(MainActivity.this);
         popup.setContentView(R.layout.about_popup);
         txtclose = popup.findViewById(R.id.txtclose);
         about = popup.findViewById(R.id.textView);
@@ -365,6 +341,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void setKmGas(double kmGas){
         this.kmGas = kmGas;
+    }
+
+    public static void hideKeyboard( Activity activity ) {
+        InputMethodManager imm = (InputMethodManager)activity.getSystemService( Context.INPUT_METHOD_SERVICE );
+        View f = activity.getCurrentFocus();
+        if( null != f && null != f.getWindowToken() && EditText.class.isAssignableFrom( f.getClass() ) )
+            imm.hideSoftInputFromWindow( f.getWindowToken(), 0 );
+        else
+            activity.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN );
     }
 }
 

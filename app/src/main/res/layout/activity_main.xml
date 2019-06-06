@@ -14,11 +14,11 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-7107657737723421/5819804404"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent"
-        ads:layout_constraintTop_toTopOf="@+id/guidelineTopoAd" /><!-- ca-app-pub-3940256099942544/6300978111 -->
+        ads:layout_constraintTop_toTopOf="@+id/guidelineTopoAd" /><!-- ca-app-pub-7107657737723421/5819804404 -->
 
     <TextView
         android:id="@+id/alcoolTextView"
