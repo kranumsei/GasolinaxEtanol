@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupAds(){
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");  // ca-app-pub-7107657737723421~3249481380
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");  //ca-app-pub-7107657737723421~3249481380
 
         mAdView = findViewById(R.id.adView);
         adRequest = new AdRequest.Builder().build();
