@@ -18,11 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AboutPopup"></activity>
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
+            android:value="ca-app-pub-7107657737723421~3249481380"/>
 
 
     </application>
-    ca-app-pub-7107657737723421~3249481380
+    <!-- ca-app-pub-3940256099942544~3347511713 -->
 </manifest>

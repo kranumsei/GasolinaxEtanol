@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Etanol ou Gasolina?</string>
-    <string name="alcool">Etanol</string>
-    <string name="gasolina">Gasolina</string>
+    <string name="alcool">Etanol\n(R$/L)</string>
+    <string name="gasolina">Gasolina\n(R$/L)</string>
     <string name="calculateButtonText">Calcular</string>
     <string name="resetButton">Reset</string>
 
@@ -20,6 +20,9 @@
     <string name="rendimento3">. Para ganhar este mesmo valor em uma aplicação no mercado financeiro, por exemplo, seria necessário investir</string> <!-- y reais -->
     <string name="rendimento4">reais e esperar 12 meses.¹</string><!-- x meses -->
 
-
+    <string name="about">\tEste aplicativo se propõe a fazer esses cálculos automaticamente assim que forem informados os preços dos dois tipos de combustível.\n
+        A título de ilustração, um texto aparecerá informando o valor aproximado da eventual economia proporcionada em cada cenário.\n
+        \tPor fim, o aplicativo mostrará o montante de dinheiro necessário, em uma aplicação convencional do mercado financeiro, para se conseguir um rendimento equivalente ao que foi economizado.\n
+        Versões futuras permitirão cálculos personalizados, bastando que o usuário informe o consumo de seu veículo com cada combustível. Isto fornecerá resultados mais precisos e consequentemente maiores oportunidades de economia.</string>
 
 </resources>
